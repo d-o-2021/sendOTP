@@ -2,7 +2,6 @@
 
 **The SendOtp SDK makes verifying OTP easy. SDK supports the verification of email and phone numbers via SMS, Calls & Whatsapp.**
 
-**This SDK supports invisible OTP verification also.**
 
 
 ## Getting started
@@ -19,62 +18,94 @@ After login at MSG91, follow below steps to get your widgetId and authToken:
 
 **Note:** To ensure that this SDK functions correctly within your mobile application, please enable Mobile Integration while configuring the widget.
 
-## Installation
+## 📦 Installation
 
-```shell 
-npm install @msg91comm/sendotp-react-native
+### Swift Package Manager (SPM)
+
+You can install the package via **Xcode**:
+
+1. Open your project in **Xcode**
+2. Go to **File > Add Packages**
+3. Enter the repository URL: https://github.com/d-o-2021/sendOTP
+4. Select the latest version
+5. Click **Add Package**
+
+Or 
+
+Add the package manually to your `Package.swift` file:
+
+```swift
+dependencies: [
+ .package(url: "https://github.com/d-o-2021/sendOTP", from: "1.0.0")
+]
 ```
 
 ## Example
 
 ```jsx
-import React, { useEffect } from 'react';
-import { OTPWidget } from '@msg91comm/sendotp-react-native';
+import SwiftUI
+import sendOtp // Importing the custom Swift Package you created
 
-const widgetId = "3461******************38";
-const tokenAuth = "125*******************TP1";
+struct ContentView: View {
+    @State private var number: String = ""
 
-const App = () => {
-    useEffect(() => {
-        OTPWidget.initializeWidget(widgetId, tokenAuth); //Widget initialization
-    }, [])
+    var body: some View {
+        VStack(spacing: 20) {
+            // MARK: - Input Field
+            // User enters the mobile number here
+            TextField("Enter number/mail", text: $number)
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
+                .padding(.horizontal)
 
-    const [number, setNumber] = useState('');
-
-    const handleSendOtp = async () => {
-        const data = {
-            identifier: '91758XXXXXXX'
+            // MARK: - Send OTP Button
+            Button(action: {
+                handleSendOtp() // Trigger OTP send when tapped
+            }) {
+                Text("Send OTP")
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.blue)
+                    .cornerRadius(8)
+            }
+            .padding(.horizontal)
         }
-        const response = await OTPWidget.sendOTP(data);
-        console.log(response);  
+        .padding()
+        .onAppear {
+            // MARK: - Initialize OTP Widget
+            // This must be called before using OTP methods
+            OTPWidget.initializeWidget(
+                widgetId: "3461******************38",
+                tokenAuth: "125*******************TP1"
+            )
+        }
     }
 
-    return (
-        <View>
-            <TextInput
-                placeholder='Number'
-                value={number}
-                keyboardType='numeric'
-                style={{ backgroundColor: '#ededed', margin: 10 }}
-                onChangeText={(text) => {
-                    setNumber(text)
-                }}
-            />
-            <TouchableOpacity
-                style={styles.button}
-                onPress={()=>{
-                    handleSendOtp()
-                }}
-            >
-                <Text>
-                    Send OTP
-                </Text>
-            </TouchableOpacity>
-        </View>
-    );
+    // MARK: - OTP Sending Logic
+    func handleSendOtp() {
+        let data: [String: Any] = [
+            "identifier": number // Pass user-entered number in expected key
+        ]
+
+        // Call the sendOTP function from the Swift Package
+        OTPWidget.sendOTP(body: data) { result in
+            switch result {
+            case .success(let response):
+                // Handle success - You can parse and use `response` as needed
+                print("OTP Response: \(response)")
+            case .failure(let error):
+                print("Error sending OTP: \(error.localizedDescription)")
+            }
+        }
+    }
 }
 
-export default App;
+// MARK: - Preview
+#Preview {
+    ContentView()
+}
 ```
 
 
@@ -98,25 +129,33 @@ You can call this method on a button press.
 <br>
 <br>
 
-*NOTE:* If you have enabled the invisible option in a widget configuration and you are trying to verify the mobile number with the mobile network then your number will be verified without OTP and if in any case the invisible verification gets fail in between the process then you will receive the normal OTP on your entered number.
-
 ```jsx
-const handleSendOtp = async () => {
-  const data = {
-    identifier: '91758XXXXXXX'
-  }
-  const response = await OTPWidget.sendOTP(data);
-  console.log(response);
+let body: [String: Any] = [
+    "identifier": "91**********"
+]
+        
+OTPWidget.sendOTP(body: body) { result in
+    switch result {
+    case .success(let response):
+        print("OTP Response: \(response)")
+    case .failure(let error):
+        print("Error: \(error.localizedDescription)")
+    }
 }
 ```
 **or**
 ```jsx
-const handleSendOtp = async () => {
-  const data = {
-    identifier: 'alpha@gmail.com'
-  }
-  const response = await OTPWidget.sendOTP(data);
-  console.log(response);
+let body: [String: Any] = [
+    "identifier": "alpha_do@gmail.com"
+]
+        
+OTPWidget.sendOTP(body: body) { result in
+    switch result {
+    case .success(let response):
+        print("OTP Response: \(response)")
+    case .failure(let error):
+        print("Error: \(error.localizedDescription)")
+    }
 }
 ```
 
@@ -129,13 +168,18 @@ retryOTP method takes optional channel code for `'SMS-11'`, `'VOICE-4'`, `'EMAIL
 *Note:* If the widget uses the default configuration, don't pass the channel as argument.
 
 ```jsx
-const handleRetryOtp = async () => {
-   const body = {
-        reqId: '3463***************43931',
-        retryChannel: 11 // Retry channel code (here, SMS:11)
-  }
-  const response = await OTPWidget.retryOTP(body);
-  console.log(response);
+let retryBody: [String: Any] = [
+    "reqId": "3463***************43931",
+    "retryChannel":"11" // Retry channel code (here, SMS:11)
+]
+
+OTPWidget.retryOTP(body: retryBody) { result in
+    switch result {
+    case .success(let response):
+        print("Retry Response:", response)
+    case .failure(let error):
+        print("Error:", error)
+    }
 }
 ```
 
@@ -144,13 +188,18 @@ const handleRetryOtp = async () => {
 The verifyOTP method is used to verify an OTP entered by the user.
 
 ```jsx
-const handleVerifyOtp = async () => {
-  const body = {
-        reqId: '3463***************43931',
-        otp: '****'
-  }
-  const response = await OTPWidget.verifyOTP(body);
-  console.log(response);
+let verifyBody: [String: Any] = [
+    "reqId": "3463***************43931",
+    "otp":"****"
+]
+
+OTPWidget.verifyOTP(body: verifyBody) {result in
+    switch result {
+    case .success(let response):
+        print("Verify Otp Response:", response)
+    case .failure(let error):
+        print("Error:", error)
+    }    
 }
 ```
 

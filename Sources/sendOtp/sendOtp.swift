@@ -39,7 +39,6 @@ public class OTPManager {
     
     public static func sendOTP(body: [String: Any], completion: @escaping (Result<[String: Any], Error>) -> Void){
         guard checkInitialization() else {
-            print("inside else???")
             completion(.failure(NSError(domain: "Not initialized", code: 0)))
             return
         }
