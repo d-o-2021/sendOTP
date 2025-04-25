@@ -27,8 +27,8 @@ final class sendOtpTests: XCTestCase {
         }
         
 //        let verifyBody: [String: Any] = [
-//            "reqId": "35647768645a383836393239",
-//            "otp":"2955"
+//            "reqId": "3564786c5177383638313536",
+//            "otp":"9734"
 //        ]
 //        
 //        OTPManager.verifyOTP(body: verifyBody) {result in
@@ -44,8 +44,8 @@ final class sendOtpTests: XCTestCase {
 //        
         
 //        let retryBody: [String: Any] = [
-//            "reqId": "35647768486b393732333239",
-//            "retryChannel":"11"
+//            "reqId": "3564786c5177383638313536",
+//            "retryChannel":"3"
 //        ]
 //        
 //        OTPManager.retryOTP(body: retryBody) { result in

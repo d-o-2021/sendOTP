@@ -30,7 +30,9 @@ You can install the package via **Xcode**:
 4. Select the latest version
 5. Click **Add Package**
 
-Or add the package manually to your `Package.swift` file:
+Or 
+
+Add the package manually to your `Package.swift` file:
 
 ```swift
 dependencies: [
