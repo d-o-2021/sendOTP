@@ -13,7 +13,7 @@ final class sendOtpTests: XCTestCase {
     func testSendOTP() {
         let expectation = self.expectation(description: "OTP sent")
         let body: [String: Any] = [
-            "identifier": "919999999999"
+            "identifier": "91**********"
         ]
         
         OTPManager.sendOTP(body: body) { result in
