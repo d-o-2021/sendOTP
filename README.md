@@ -1,4 +1,10 @@
-# Send OTP React-Native Sdk!
+# Send OTP React-Native Sdk! 
+
+![Swift](https://img.shields.io/badge/Swift-5.5%2B-orange?logo=swift)
+![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20macOS-blue)
+![SPM Compatible](https://img.shields.io/badge/SPM-compatible-brightgreen?logo=swift)
+![Version](https://img.shields.io/github/v/release/d-o-2021/sendOTP?release=tag)
+
 
 **The SendOtp SDK makes verifying OTP easy. SDK supports the verification of email and phone numbers via SMS, Calls & Whatsapp.**
 
