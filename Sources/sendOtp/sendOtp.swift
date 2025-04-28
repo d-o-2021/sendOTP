@@ -2,14 +2,14 @@
 // https://docs.swift.org/swift-book
 import Foundation
 
-public class OTPManager {
+public class OTPWidget {
     public static var widgetId:String = ""
     public static var tokenAuth:String = ""
 
     public static func initializeWidget(widgetId: String, tokenAuth: String){
         self.widgetId = widgetId
         self.tokenAuth = tokenAuth
-        print("OTPManager initialized successfully.")
+        print("OTPWidget initialized successfully.")
     }
     
     public static func checkInitialization() -> Bool {

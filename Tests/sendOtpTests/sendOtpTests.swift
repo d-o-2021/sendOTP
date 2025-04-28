@@ -5,8 +5,8 @@ final class sendOtpTests: XCTestCase {
     
     override class func setUp() {
         super.setUp()
-        OTPManager.initializeWidget(widgetId: "", tokenAuth: "")
-        let flag = OTPManager.checkInitialization()
+        OTPWidget.initializeWidget(widgetId: "", tokenAuth: "")
+        let flag = OTPWidget.checkInitialization()
         print("flag", flag)
     }
     
@@ -16,7 +16,7 @@ final class sendOtpTests: XCTestCase {
             "identifier": "91**********"
         ]
         
-        OTPManager.sendOTP(body: body) { result in
+        OTPWidget.sendOTP(body: body) { result in
             switch result {
             case .success(let response):
                 print("Response received: \(response)")
@@ -31,7 +31,7 @@ final class sendOtpTests: XCTestCase {
 //            "otp":"9734"
 //        ]
 //        
-//        OTPManager.verifyOTP(body: verifyBody) {result in
+//        OTPWidget.verifyOTP(body: verifyBody) {result in
 //            switch result {
 //            case .success(let response):
 //                print("verify otp response:", response)
@@ -48,7 +48,7 @@ final class sendOtpTests: XCTestCase {
 //            "retryChannel":"3"
 //        ]
 //        
-//        OTPManager.retryOTP(body: retryBody) { result in
+//        OTPWidget.retryOTP(body: retryBody) { result in
 //            switch result {
 //            case .success(let response):
 //                print("retry otp response:", response)
@@ -59,7 +59,7 @@ final class sendOtpTests: XCTestCase {
 //        }
         
         
-//        OTPManager.getWidgetProcess() { result in
+//        OTPWidget.getWidgetProcess() { result in
 //            switch result {
 //            case .success(let response):
 //                print("widget process response:", response)
